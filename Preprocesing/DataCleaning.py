@@ -4,7 +4,7 @@ import numpy as np
 def main():
     # Faz a leitura do arquivo
     names = ['Code-Number','Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli','Mitoses','Class'] 
-    features = ['Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli','Class']
+    features = ['Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli', 'Mitoses','Class']
     output_file = 'Datasets/breast-cancer-output.data'
     input_file = 'Datasets/breast-cancer-wisconsin.data'
     df = pd.read_csv(input_file, # Nome do arquivo com dados
@@ -14,8 +14,8 @@ def main():
     
     df_original = df.copy()
     # Imprime as 15 primeiras linhas do arquivo
-    print("PRIMEIRAS 15 LINHAS\n")
-    print(df.head(15))
+    print("PRIMEIRAS 35 LINHAS\n")
+    print(df.head(42))
     print("\n")        
 
     # Imprime informações sobre dos dados
@@ -37,7 +37,7 @@ def main():
     
     columns_missing_value = df.columns[df.isnull().any()]
     print(columns_missing_value)
-    method = 'mean' # number or median or mean or mode
+    method = 'mode' # number or median or mean or mode
     
     for c in columns_missing_value:
         UptateMissingvalue(df, c)
@@ -45,18 +45,23 @@ def main():
     # print('Total valores ausentes: ' + str(df['Density'].isnull().sum()))
     print(df.describe())
     print("\n")
-    print(df.head(15))
-    print(df_original.head(15))
+    print(df.head(42))
+    print(df_original.head(42))
     print("\n")
     
     # Salva arquivo com o tratamento para dados faltantes
     df.to_csv(output_file, header=False, index=False)  
     
 
-def UptateMissingvalue(df, column, method="mean", number=0):
+def UptateMissingvalue(df, column, method="mode", number=0):
     if method == 'number':
         # Substituindo valores ausentes por um número
-        df[column].fillna(number, inplace=True)
+        df[column].fillna(1, inplace=True)
+        #substitui valores de linhas especificas
+
+       #df.loc[23,'Density']=6
+       #df.loc[292,'Density']=6
+
     elif method == 'median':
         # Substituindo valores ausentes pela mediana 
         #median = df['Density'].median()
