@@ -1,55 +1,75 @@
 import pandas as pd
 import numpy as np
-import statistics
-import math
-from scipy import stats
-import numpy
-from collections import Counter
+
 
 def main():
-    # Faz a leitura do arquivo
-    input_file = 'Datasets/breast-cancer-wisconsin.data'
-    names = ['Code-Number','Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli','Mitoses','Class']
-    features = ['Bare-Nuclei']
-    target = 'Severity'
-   data= df.target
-  
+     # Faz a leitura do arquivo
+    names =['Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli', 'Mitoses','Class'] # Nome das colunas 
+    features  = ['Bare-Nuclei'] # Define as colunas que serão  utilizadas
+    input_file = 'Datasets/breast-cancer-output.data'
+    df = pd.read_csv(input_file,    # Nome do arquivo com dados
+                    usecols = features,
+                     names = names) # Nome das colunas
 
-    
-    
-    """ pd.read_csv(input_file,    # Nome do arquivo com dados
-                     names = names) # Nome das colunas                      
-    ShowInformationDataFrame(df,"Dataframe original")
+    #media 
+    print('Média')
+    print(df.mean())
+    print('\n\n')
 
-data = df.Bare_Nuclei """
+    #median
+    print('Mediana')
+    print(df.median())
+    print('\n\n')
 
-mediana = statistics.median(data)
-#mediaHarmonica = statistics.harmonic_mean(df.Bare-Nuclei)
-#desvioP = statistics.pstdev(df.Bare-Nuclei)
-#variancia = statistics.pvariance(df.Bare-Nuclei)
+    #quatil
+    print('Quantil')
+    print(df.quantile())
+    print('\n')
+    print('Quantil 25%')
+    print(df.quantile(q=0.25))
+    print('\n')
+    print('Quantil 50%')
+    print(df.quantile(q=0.50))
+    print('\n')
+    print('Quantil 75%')
+    print(df.quantile(q=0.75))
+    print('\n\n')
+
+    #moda
+    print('Moda')
+    print(df.mode())
+    print('\n\n')
 
 
-print("Média aritmética: ", mediana)
-#print("Média harmônica: ", mediaHarmonica)
-#print("Média desvio padrao: ", desvioP)
-#print("Média variancia: ", variancia)
+    #Medidas de dispersãp
+    # Amplitude
+    print('Amplitude')
+    ampl = df.max() - df.min()
+    print(ampl)
+    print('\n\n')
+
+    #Variância
+    print('Variância')
+    print(df.var())
+    print('\n\n')
+
+    #Desvio Padrão
+    print('Desvio padrão')
+    print(df.std())
+    print('\n\n')
+
+    #Desvio absoluto
+    print('Desvio absoluto')
+    print(df.mad())
+    print('\n\n')
+
+    #Covariância e Correlação
+    print('Covariância')
+    print(df.cov())
+    print('\n')
+    print('Correlação')
+    print(df.corr())
+    print('\n')
 
 if __name__ == "__main__":
     main()
-
-""" def main():
-    # Faz a leitura do arquivo
-    names = ['Bare-Nuclei'] 
-    features = ['Bare-Nuclei']
-    output_file = 'Atividade4.data'
-    input_file = 'Datasets/breast-cancer-output.data'
-    df = pd.read_csv(input_file, # Nome do arquivo com dados
-                     names = names, # Nome das colunas 
-                     usecols = features, # Define as colunas que serão  utilizadas
-                    na_values='?') # Define que ? será considerado valores ausentes
-
-    
-
-
-if __name__ == "__main__":
-    main() """
