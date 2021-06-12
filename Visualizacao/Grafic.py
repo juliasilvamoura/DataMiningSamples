@@ -11,7 +11,7 @@ fig, (ax1) = plt.subplots(1, figsize=(10,5))
 ax1.bar([1,2,3,4,5],[4,3,2,4,7])
 #ax2.barh([0.5,1,2.5],[0,1,2])
 
-ax1.set(title="Gráfico de Barras Verticais", xlabel="Classes", ylabel=" Frequencia")
+ax1.set(title="Gráfico Distribuição de Frequencia", xlabel="Classes", ylabel=" Frequencia")
 #ax2.set(title="Gráfico de Barras Horizontais", xlabel="Eixo x", ylabel="Eixo y")
 
 plt.show()

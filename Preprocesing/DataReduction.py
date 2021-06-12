@@ -2,14 +2,15 @@ import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
 
 def main():
     # Faz a leitura do arquivo
-    input_file = 'Datasets/breast-cancer-wisconsin.data'
-    names = ['Code-Number','Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli','Mitoses','Class']
+    input_file = 'Datasets/breast-cancer-output.data'
+    names = ['Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli','Mitoses','Class']
     features = ['Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli', 'Mitoses','Class']
-    target = 'Severity'
+    target = 'Bare-Nuclei'
     df = pd.read_csv(input_file,    # Nome do arquivo com dados
                      names = names) # Nome das colunas                      
     ShowInformationDataFrame(df,"Dataframe original")
@@ -21,7 +22,7 @@ def main():
     y = df.loc[:,[target]].values
 
     # Standardizing the features
-    x = StandardScaler().fit_transform(x)
+    x = MinMaxScaler().fit_transform(x)
     normalizedDf = pd.DataFrame(data = x, columns = features)
     normalizedDf = pd.concat([normalizedDf, df[[target]]], axis = 1)
     ShowInformationDataFrame(normalizedDf,"Dataframe Normalized")

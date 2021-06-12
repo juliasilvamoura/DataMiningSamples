@@ -6,10 +6,10 @@ from sklearn.preprocessing import MinMaxScaler
 
 def main():
     # Faz a leitura do arquivo
-    input_file = 'Datasets/breast-cancer-wisconsin.data'
-    names = ['Code-Number','Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli','Mitoses','Class']
+    input_file = 'Datasets/breast-cancer-output.data'
+    names = ['Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli','Mitoses','Class']
     features = ['Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli', 'Mitoses','Class']
-    target = 'Severity'
+    target = 'Bare-Nuclei'
     df = pd.read_csv(input_file,    # Nome do arquivo com dados
                      names = names) # Nome das colunas                      
     ShowInformationDataFrame(df,"Dataframe original")

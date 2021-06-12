@@ -1,10 +1,11 @@
+from os import remove
 import pandas as pd
 import numpy as np
 
 def main():
     # Faz a leitura do arquivo
     names = ['Code-Number','Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli','Mitoses','Class'] 
-    features = ['Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli', 'Mitoses','Class']
+    features = ['Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli','Mitoses','Class']
     output_file = 'Datasets/breast-cancer-output.data'
     input_file = 'Datasets/breast-cancer-wisconsin.data'
     df = pd.read_csv(input_file, # Nome do arquivo com dados
@@ -39,8 +40,19 @@ def main():
     print(columns_missing_value)
     method = 'mode' # number or median or mean or mode
     
-    for c in columns_missing_value:
-        UptateMissingvalue(df, c)
+    #for c in columns_missing_value:
+     #   UptateMissingvalue(df, c)
+    
+    df = df.dropna()
+     # Imprime a quantidade de valores faltantes por coluna
+    print("VALORES FALTANTES APÓS REMOÇÃO\n")
+    print(df.isnull().sum())
+    print("\n")
+    columns_missing_value = df.columns[df.isnull().any()]
+    print(columns_missing_value)
+
+
+    
     
     # print('Total valores ausentes: ' + str(df['Density'].isnull().sum()))
     print(df.describe())
@@ -53,7 +65,7 @@ def main():
     df.to_csv(output_file, header=False, index=False)  
     
 
-def UptateMissingvalue(df, column, method="mode", number=0):
+def UptateMissingvalue(df, column, method="remove", number=0):
     if method == 'number':
         # Substituindo valores ausentes por um número
         df[column].fillna(1, inplace=True)
@@ -74,6 +86,10 @@ def UptateMissingvalue(df, column, method="mode", number=0):
         # Substituindo valores ausentes pela moda
         mode = df[column].mode()[0]
         df[column].fillna(mode, inplace=True)
+    elif method == 'remove':
+        # Remover os valores faltantes
+        remove = df[column].dropna(axis =0)  
+        df[column].fillna(remove, inplace=True)
 
 
 if __name__ == "__main__":
