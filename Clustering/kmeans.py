@@ -1,6 +1,7 @@
 #Implementation of Kmeans from scratch and using sklearn
 #Loading the required modules 
 import numpy as np
+import pandas as pd
 from scipy.spatial.distance import cdist 
 from sklearn.datasets import load_digits
 from sklearn.decomposition import PCA
@@ -38,17 +39,6 @@ def KMeans_scratch(x,k, no_of_iterations):
     return points
 
 
-def show_digitsdataset(digits):
-    fig = plt.figure(figsize=(6, 6))  # figure size in inches
-    fig.subplots_adjust(left=0, right=1, bottom=0, top=1, hspace=0.05, wspace=0.05)
-
-    for i in range(64):
-        ax = fig.add_subplot(8, 8, i + 1, xticks=[], yticks=[])
-        ax.imshow(digits.images[i], cmap=plt.cm.binary, interpolation='nearest')
-        # label the image with the target value
-        ax.text(0, 7, str(digits.target[i]))
-
-    #fig.show()
 
 
 def plot_samples(projected, labels, title):    
@@ -62,32 +52,47 @@ def plot_samples(projected, labels, title):
     plt.legend()
     plt.title(title)
 
- 
+
+def load_dataset(input_file): 
+    names = ['Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli','Mitoses','Class']
+    features = ['Clump-Thickness','Cell-Size','Cell-Shape','Marginal-Adhesion','Single-Epithelial-Cell-Size','Bare-Nuclei','Bland-Chromatin','Normal-Nucleoli', 'Mitoses','Class']
+    target = 'Class'
+    df = pd.read_csv(input_file,    # Nome do arquivo com dados
+                     names = names) # Nome das colunas  
+    # Separating out the features
+    x = df.loc[:, features].values
+
+    # Separating out the target
+    y = df.loc[:,[target]].values   
+
+    return x,y
+
 def main():
     #Load dataset Digits
-    digits = load_digits()
-    show_digitsdataset(digits)
-    
+    x,y = load_dataset('Datasets/breast-cancer-output.data')
+
+    k = 2
     #Transform the data using PCA
     pca = PCA(2)
-    projected = pca.fit_transform(digits.data)
+    projected = pca.fit_transform(x)
     print(pca.explained_variance_ratio_)
-    print(digits.data.shape)
-    print(projected.shape)    
-    plot_samples(projected, digits.target, 'Original Labels')
- 
+    print(x.shape)
+    print(projected.shape) 
+
+
+   
     #Applying our kmeans function from scratch
-    labels = KMeans_scratch(projected,3,15)
+    labels = KMeans_scratch(projected,k,100)
     
     #Visualize the results 
     plot_samples(projected, labels, 'Clusters Labels KMeans from scratch')
 
     #Applying sklearn kemans function
-    kmeans = KMeans(n_clusters=6).fit(projected)
+    kmeans = KMeans(n_clusters=k).fit(projected)
     print(kmeans.inertia_)
     centers = kmeans.cluster_centers_
     score = silhouette_score(projected, kmeans.labels_)    
-    print("For n_clusters = {}, silhouette score is {})".format(10, score))
+    print("For n_clusters = {}, silhouette score is {})".format(k, score))
 
     #Visualize the results sklearn
     plot_samples(projected, kmeans.labels_, 'Clusters Labels KMeans from sklearn')
