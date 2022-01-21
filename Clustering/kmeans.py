@@ -71,7 +71,7 @@ def main():
     #Load dataset Digits
     x,y = load_dataset('Datasets/breast-cancer-output.data')
 
-    k = 2
+    k = 10
     #Transform the data using PCA
     pca = PCA(2)
     projected = pca.fit_transform(x)

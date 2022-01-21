@@ -77,8 +77,8 @@ def UptateMissingvalue(df, column, method="remove", number=0):
     elif method == 'median':
         # Substituindo valores ausentes pela mediana 
         #median = df['Density'].median()
-        df[column].fillna(median, inplace=True)
-    elif method == 'mean':
+    #    df[column].fillna(median, inplace=True)
+   # elif method == 'mean':
         # Substituindo valores ausentes pela média
         mean = df[column].mean()
         df[column].fillna(mean, inplace=True)
